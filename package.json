@@ -1,0 +1,19 @@
+{
+  "name": "ambmate_server",
+  "version": "1.0.0",
+  "description": "Server for home less profiling with android connectivity",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Abhinav Bagrecha",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-fileupload": "0.0.5",
+    "http-proxy": "^1.14.0",
+    "request": "^2.74.0"
+  }
+}
+
