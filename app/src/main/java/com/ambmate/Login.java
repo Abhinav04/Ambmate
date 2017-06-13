@@ -14,13 +14,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.Console;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +34,7 @@ import static android.accounts.AccountManager.KEY_PASSWORD;
 
 public class Login extends AppCompatActivity {
 
-    public static final String LOGIN_URL = "http://10.0.2.2:3001/login";
+    public static final String LOGIN_URL = "http://192.168.43.58:3001/login";
 
    private EditText ambid,ambpass;
    private Button login;
@@ -58,13 +61,13 @@ public class Login extends AppCompatActivity {
            public void onClick(View view) {
 
                username = ambid.getText().toString().trim();
-               password = ambid.getText().toString().trim();
+               password = ambpass.getText().toString().trim();
 
                StringRequest strreq = new StringRequest(Request.Method.POST, LOGIN_URL, new Response.Listener<String>() {
                    @Override
                    public void onResponse(String response) {
 
-                       if(response.trim().equals("success"))
+                       if(response.trim().equals("OK"))
                        {
                            Intent i = new Intent(Login.this,Info.class);
                            startActivity(i);
@@ -81,6 +84,7 @@ public class Login extends AppCompatActivity {
                        @Override
                        public void onErrorResponse(VolleyError error) {
                            Toast.makeText(Login.this,error.toString(),Toast.LENGTH_LONG ).show();
+                           System.out.println(error.toString());
                        }
                    }){
                        @Override
@@ -91,6 +95,16 @@ public class Login extends AppCompatActivity {
                            return map;
                        }
                    };
+
+               int socketTimeout = 5000; // 30 seconds. You can change it
+               RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
+                       DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                       DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+
+               strreq.setRetryPolicy(policy);
+
+               RequestQueue requestQueue = Volley.newRequestQueue(Login.this);
+               requestQueue.add(strreq);
 
 
 
