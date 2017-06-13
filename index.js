@@ -49,7 +49,7 @@ con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
 
-con.query("Select password from logvalidity where name = req.body.userid ", function(err,result){
+con.query('select password from logvalidity where name = ? ',[req.body.userid], function(err,result){
 
     if (err) throw err;
     console.log(result);
