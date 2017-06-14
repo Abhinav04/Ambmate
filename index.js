@@ -52,7 +52,9 @@ con.connect(function(err) {
 con.query('select password from logvalidity where name = ? ',[req.body.userid], function(err,result){
 
     if (err) throw err;
-    console.log(result);
+
+var passwd = JSON.stringify(result);
+    console.log(result.password);
   });
 });
  
