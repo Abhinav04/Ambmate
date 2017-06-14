@@ -39,32 +39,38 @@ app.post('/',function(req,res){
 });
 
 app.post('/login',function(req,res){
-	console.log('Home request post');
 	console.log(req.body.userid);
 	console.log(req.body.password)
 	
 
 
-con.connect(function(err) {
-  if (err) throw err;
   console.log("Connected!");
 
 con.query('select password from logvalidity where name = ? ',[req.body.userid], function(err,result){
 
     if (err) throw err;
 
-var passwd = JSON.stringify(result);
-    console.log(result.password);
-  });
-});
- 
 
+	//console.log(result[0].password);
+	if(result[0].password == req.body.password)
+	res.send("OK")
 
-	//res.set('Content-Type', 'text/html');
-        if(req.body.userid=='Abhi' && req.body.password=='abhinav')
-        res.send("OK");
-	// console.log(req.body.abc);
 	else 
-	res.send("Fail");
+	res.send("Incorrect Uid or password")
+
+
+	  });
+	
 	
 });
+
+app.post('/info', function(req,res){
+	
+console.log(req.body.src);
+console.log(req.body.dest);
+
+res.send("OK");
+
+});
+
+
